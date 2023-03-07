@@ -1,0 +1,59 @@
+a {
+	text-decoration: none;
+	color: white;
+}
+
+a:hover,
+a:active {
+	color: lightgray;
+}
+
+mat-nav-list {
+	padding: 0;
+	a {
+		opacity: 0.64;
+		font-family: Roboto, sans-serif;
+		font-size: 12px;
+		font-weight: 500;
+		color: #ffffff;
+		white-space: nowrap;
+	}
+}
+
+.logo {
+	margin: 26px 60px 29px 47px;
+}
+
+mat-icon {
+	margin-right: 20px;
+}
+
+.mat-list-base .mat-list-item.mat-list-item-with-avatar {
+	height: 41px;
+}
+
+.logout-features {
+	display: flex;
+	padding-left: 16px;
+	mat-icon,
+	a {
+		cursor: pointer;
+	}
+}
+
+.menu-minimize {
+	padding: 10px 0;
+	display: flex;
+	justify-content: flex-end;
+	color: #ffffff;
+	mat-icon {
+		cursor: pointer;
+	}
+}
+
+.menu-layout {
+	height: 80vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}

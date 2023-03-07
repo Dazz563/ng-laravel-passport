@@ -1,0 +1,59 @@
+<!-- <button color="primary" (click)="getUser()" class="mt-1" mat-raised-button>Get user</button>
+<br />
+<button *ngIf="authService.isLoggedIn$ | async" color="primary" (click)="logout()" class="mt-1" mat-raised-button>Logout</button>
+
+<h1 *ngIf="authService.isLoggedIn$ | async">You are logged in correctly</h1>
+<h1 *ngIf="authService.isLoggedOut$ | async">No token is present</h1> -->
+<mat-sidenav-container>
+	<mat-sidenav opened="true" mode="side" #sidenav role="navigation">
+		<app-sidenav-list (closeSidenav)="sidenav.toggle()"></app-sidenav-list>
+	</mat-sidenav>
+	<mat-sidenav-content>
+		<div *ngIf="!sidenav.opened" class="closed-menu-parent">
+			<div *ngIf="!sidenav.opened" class="closed-menu">
+				<div class="menu-max">
+					<mat-icon class="menu-max" (click)="sidenav.toggle()" mat-list-icon
+						>menu
+						<!-- <img src="../assets/group-14.svg" alt="Users" /> -->
+					</mat-icon>
+				</div>
+				<div class="menu-layout">
+					<div>
+						<a mat-list-item routerLink="viewer">
+							<mat-icon mat-list-icon
+								>admin_panel_settings
+								<!-- <img src="../../../assets/users_icon.svg" alt="Users" /> -->
+							</mat-icon>
+						</a>
+						<a mat-list-item routerLink="user">
+							<mat-icon mat-list-icon
+								>admin_panel_settings
+								<!-- <img src="../../../assets/stocksheet-menu.svg" alt="Users" /> -->
+							</mat-icon>
+						</a>
+						<a mat-list-item routerLink="admin">
+							<mat-icon mat-list-icon
+								>admin_panel_settings
+								<!-- <img src="../../../assets/insurance-policies-desktop.svg" alt="Users" /> -->
+							</mat-icon>
+						</a>
+					</div>
+					<div>
+						<a mat-list-item (click)="logout()">
+							<mat-icon mat-list-icon
+								>admin_panel_settings
+								<!-- <img src="../../../assets/insurance-policies-desktop.svg" alt="Users" /> -->
+							</mat-icon>
+						</a>
+					</div>
+				</div>
+			</div>
+			<main>
+				<router-outlet></router-outlet>
+			</main>
+		</div>
+		<main *ngIf="sidenav.opened">
+			<router-outlet></router-outlet>
+		</main>
+	</mat-sidenav-content>
+</mat-sidenav-container>

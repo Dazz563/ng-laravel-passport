@@ -1,0 +1,24 @@
+<div class="auth-container">
+	<!-- LOGIN -->
+	<mat-card class="login-card">
+		<h1 class="center-text">Manage My Website</h1>
+		<h2 class="center-text">Welcome to your website</h2>
+		<form [formGroup]="loginForm" (ngSubmit)="onSubmitLogin()">
+			<mat-form-field appearance="standard">
+				<mat-label>Email</mat-label>
+				<input formControlName="email" type="text" matInput />
+				<mat-error *ngIf="loginForm.get('email').hasError('required')">Field is required</mat-error>
+				<mat-error *ngIf="loginForm.get('email').hasError('email')">Invalid format</mat-error>
+			</mat-form-field>
+			<mat-form-field appearance="standard">
+				<mat-label>Password</mat-label>
+				<input [type]="hidePassword ? 'password' : 'text'" formControlName="password" type="password" matInput />
+				<mat-icon color="primary" matSuffix (click)="hidePassword = !hidePassword">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+				<mat-error *ngIf="loginForm.get('password').hasError('required')">Field is required</mat-error>
+			</mat-form-field>
+			<button color="primary" [disabled]="loginForm.invalid" class="mt-1" mat-raised-button>Login</button>
+			<p routerLink="/register" class="center-text mt-1 pointer">Need to register?</p>
+			<p routerLink="/forgot-password" class="fgt-pass center-text mt-1 pointer">Forgot Password?</p>
+		</form>
+	</mat-card>
+</div>
