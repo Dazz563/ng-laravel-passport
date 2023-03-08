@@ -21,7 +21,7 @@
 				<mat-icon color="primary" matSuffix (click)="hidePassword = !hidePassword">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
 				<mat-error *ngIf="regForm.hasError">Password is too weak (1 upper, 1 lower, 1 special char)</mat-error>
 			</mat-form-field>
-			<button [disabled]="regForm.invalid" class="mt-1" mat-raised-button>Register</button>
+			<button color="primary" [disabled]="regForm.invalid" class="mt-1" mat-raised-button>Register</button>
 			<p routerLink="/" class="center-text mt-1 pointer">Back to login</p>
 		</form>
 	</mat-card>

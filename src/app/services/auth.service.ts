@@ -10,10 +10,10 @@ export interface UserModel {
 	email: string;
 	password: string;
 }
-
-// export interface AccessToken {
-// 	accessToken: string;
-// }
+export interface ResetDataModel {
+	password: string;
+	token: string;
+}
 
 @Injectable({
 	providedIn: 'root',
@@ -123,54 +123,61 @@ export class AuthService {
 	}
 
 	// Send forgot password mail
-	// async forgotPassword(email: string) {
-	// 	// Loader
-	// 	this.loader.loadingOn();
-	// 	this.http.post<object>(`${this.BASE_URL}/reset-password`, email).subscribe({
-	// 		next: (res: any) => {
-	// 			if (res) {
-	// 				// Loader
-	// 				this.loader.loadingOff();
-	// 				// Handle success notification
-	// 				this.snackbar.open('Success', 'Please check your mail', {duration: 4000});
-	// 				// Route user
-	// 				this.router.navigateByUrl('/');
-	// 			}
-	// 		},
-	// 		error: (error) => {
-	// 			// Handle error
-	// 			console.log(error);
-	// 			// Loader
-	// 			this.loader.loadingOff();
-	// 			// Handle success notification
-	// 			this.snackbar.open('Oops', 'Something went wrong!', {duration: 4000});
-	// 		},
-	// 	});
-	// }
+	forgotPassword(email: string) {
+		// await this.loading.show();
+		this.http.post(`${this.URL}/api/forgot_password`, email).subscribe({
+			next: (res: any) => {
+				console.log(res);
+				if (res.data) {
+					this.snackbar.open(`Reset password sent to ${email['email']}`, null, {
+						duration: 4000,
+						horizontalPosition: 'center',
+						verticalPosition: 'top',
+					});
+					this.router.navigateByUrl('/login');
+				}
+			},
+			error: (error) => {
+				console.log(error);
+				if (error.error.error) {
+					this.snackbar.open(`${error.error.error}`, '', {
+						duration: 4000,
+						horizontalPosition: 'center',
+						verticalPosition: 'top',
+					});
+				}
+			},
+		});
+	}
 
 	// Reset password
-	// async resetPassword(resetData: ResetData) {
-	// 	// Loader
-	// 	this.loader.loadingOn();
-	// 	this.http.post<object>(`${this.BASE_URL}/reset`, resetData).subscribe({
-	// 		next: (res: any) => {
-	// 			if (res) {
-	// 				// Handle success notification
-	// 				this.snackbar.open('Success', 'Password updated', {duration: 4000});
-	// 				// Route user
-	// 				this.router.navigateByUrl('/');
-	// 			}
-	// 		},
-	// 		error: (error) => {
-	// 			// Handle error
-	// 			console.log(error);
-	// 			// Loader
-	// 			this.loader.loadingOff();
-	// 			// Handle error notification
-	// 			this.snackbar.open('Oops', error.error.message, {duration: 4000});
-	// 		},
-	// 	});
-	// }
+	resetPassword(resetData: ResetDataModel) {
+		console.log(resetData);
+
+		this.http.post(`${this.URL}/api/reset_password_with_token`, resetData).subscribe({
+			next: (res: any) => {
+				console.log(res);
+				if (res.data) {
+					this.snackbar.open(`Password reset successfully`, null, {
+						duration: 4000,
+						horizontalPosition: 'center',
+						verticalPosition: 'top',
+					});
+					this.router.navigateByUrl('/login');
+				}
+			},
+			error: (error) => {
+				console.log(error);
+				if (error.error.error) {
+					this.snackbar.open(`${error.error.error}`, '', {
+						duration: 4000,
+						horizontalPosition: 'center',
+						verticalPosition: 'top',
+					});
+				}
+			},
+		});
+	}
 
 	logout() {
 		// Loader

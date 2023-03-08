@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
 	regForm: FormGroup;
 
 	constructor(
-		private authService: AuthService // //  private snackbar: MatSnackBar
+		private authService: AuthService //
 	) {}
 
 	ngOnInit(): void {
@@ -29,13 +29,7 @@ export class RegisterComponent implements OnInit {
 		this.isLogin = !this.isLogin;
 	}
 
-	onSubmitLogin() {
-		// this.authService.login(this.loginForm.value);
-	}
-
 	onSubmitRegister() {
 		this.authService.register(this.regForm.value);
 	}
-
-	fgtPass() {}
 }
