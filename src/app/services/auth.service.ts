@@ -59,6 +59,7 @@ export class AuthService {
 					setTimeout(() => {
 						this.router.navigateByUrl('/');
 						localStorage.removeItem('auth_token');
+						localStorage.removeItem('user_details');
 					}, 1000 * 60 * 60);
 				})
 			)
@@ -139,7 +140,7 @@ export class AuthService {
 			},
 			error: (error) => {
 				console.log(error);
-				if (error.error.error) {
+				if (error.error?.error) {
 					this.snackbar.open(`${error.error.error}`, '', {
 						duration: 4000,
 						horizontalPosition: 'center',
@@ -152,8 +153,6 @@ export class AuthService {
 
 	// Reset password
 	resetPassword(resetData: ResetDataModel) {
-		console.log(resetData);
-
 		this.http.post(`${this.URL}/api/reset_password_with_token`, resetData).subscribe({
 			next: (res: any) => {
 				console.log(res);
@@ -168,7 +167,7 @@ export class AuthService {
 			},
 			error: (error) => {
 				console.log(error);
-				if (error.error.error) {
+				if (error.error?.error) {
 					this.snackbar.open(`${error.error.error}`, '', {
 						duration: 4000,
 						horizontalPosition: 'center',

@@ -40,12 +40,4 @@ export class HomeComponent implements OnInit {
 				},
 			});
 	}
-
-	onSubmit() {
-		this.http.post(`${this.URL}/oauth/clients`, this.clientsForm.value).subscribe({
-			next: (res: any) => {
-				console.log(res);
-			},
-		});
-	}
 }

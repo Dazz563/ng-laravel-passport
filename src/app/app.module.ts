@@ -13,9 +13,9 @@ import {HomeComponent} from './home/home.component';
 import {SharedModule} from './shared/shared.module';
 import {AuthInterceptorService} from './services/auth-interceptor.service';
 import {SidenavListComponent} from './home/sidenav-list/sidenav-list.component';
-import { ViewerComponent } from './viewer/viewer.component';
-import { UserComponent } from './user/user.component';
-import { AdminComponent } from './admin/admin.component';
+import {ViewerComponent} from './viewer/viewer.component';
+import {UserComponent} from './user/user.component';
+import {AdminComponent} from './admin/admin.component';
 
 @NgModule({
 	declarations: [
@@ -26,9 +26,9 @@ import { AdminComponent } from './admin/admin.component';
 		ResetPasswordComponent,
 		HomeComponent,
 		SidenavListComponent,
-  ViewerComponent,
-  UserComponent,
-  AdminComponent,
+		ViewerComponent,
+		UserComponent,
+		AdminComponent,
 	],
 	imports: [
 		BrowserModule, //
