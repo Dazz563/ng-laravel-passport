@@ -16,6 +16,7 @@ import {SidenavListComponent} from './home/sidenav-list/sidenav-list.component';
 import {ViewerComponent} from './viewer/viewer.component';
 import {UserComponent} from './user/user.component';
 import {AdminComponent} from './admin/admin.component';
+import {UserModelComponent} from './admin/user-model/user-model.component';
 
 @NgModule({
 	declarations: [
@@ -29,6 +30,7 @@ import {AdminComponent} from './admin/admin.component';
 		ViewerComponent,
 		UserComponent,
 		AdminComponent,
+		UserModelComponent,
 	],
 	imports: [
 		BrowserModule, //

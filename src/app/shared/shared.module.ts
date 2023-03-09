@@ -11,6 +11,11 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import {MatTableModule} from '@angular/material/table';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
 	declarations: [],
@@ -26,6 +31,11 @@ import {MatListModule} from '@angular/material/list';
 		MatSnackBarModule,
 		MatSidenavModule,
 		MatListModule,
+		MatTableModule,
+		MatMenuModule,
+		MatPaginatorModule,
+		MatDialogModule,
+		MatCheckboxModule,
 	],
 	exports: [
 		ReactiveFormsModule, //
@@ -38,6 +48,11 @@ import {MatListModule} from '@angular/material/list';
 		MatSnackBarModule,
 		MatSidenavModule,
 		MatListModule,
+		MatTableModule,
+		MatMenuModule,
+		MatPaginatorModule,
+		MatDialogModule,
+		MatCheckboxModule,
 	],
 })
 export class SharedModule {}

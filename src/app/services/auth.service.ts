@@ -6,9 +6,14 @@ import {BehaviorSubject, Observable, map, tap} from 'rxjs';
 import {environment} from 'src/environments/environment';
 
 export interface UserModel {
+	id?: number;
 	name: string;
 	email: string;
 	password: string;
+	created_at?: Date;
+	updated_at?: Date;
+	deleted_at?: Date;
+	roles?: [{name: string}];
 }
 export interface ResetDataModel {
 	password: string;
@@ -118,7 +123,13 @@ export class AuthService {
 					// Loader
 					// this.loader.loadingOff();
 					// Handle success notification
-					this.snackbar.open('Oops', 'Something went wrong!', {duration: 4000});
+					if (error.error) {
+						this.snackbar.open(`${error.error.error}`, '', {
+							duration: 4000,
+							horizontalPosition: 'center',
+							verticalPosition: 'top',
+						});
+					}
 				},
 			});
 	}

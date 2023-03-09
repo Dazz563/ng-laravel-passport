@@ -13,14 +13,30 @@ export class AdminService {
 		private snackbar: MatSnackBar // private loader: AppLoaderService
 	) {}
 
-	// Send forgot password mail
 	getAllUsers() {
 		// await this.loading.show();
-		this.http.get(`${this.URL}/api/get_all_users`).subscribe({
+		return this.http.get(`${this.URL}/api/get_all_users`);
+	}
+
+	createUser(newUser: any) {
+		// await this.loading.show();
+		return this.http.post(`${this.URL}/api/create_user`, newUser).subscribe({
 			next: (res: any) => {
-				console.log(res.data);
+				console.log(res);
 			},
-			error: (error) => {
+			error(error) {
+				console.log(error);
+			},
+		});
+	}
+
+	updateUser(user: any) {
+		// await this.loading.show();
+		return this.http.post(`${this.URL}/api/edit_roles/${user.id}`, user).subscribe({
+			next: (res: any) => {
+				console.log(res);
+			},
+			error(error) {
 				console.log(error);
 			},
 		});
