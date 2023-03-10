@@ -2,7 +2,7 @@
 <div *ngIf="!deleteModal" class="modal-container">
 	<h2 class="modal-heading" mat-dialog-title>{{ actionType === 'create' ? 'Create User' : 'Update User' }}</h2>
 	<h3 class="modal-sub-heading">{{ actionType === 'create' ? 'Please submit for creation' : 'Please update the users fields here' }}</h3>
-	<h3 *ngIf="actionType === 'update'" class="modal-sub-heading">To deactivate a user submit with no user roles</h3>
+	<h3 *ngIf="actionType === 'update'" class="modal-sub-heading">Please note revoking all roles will deactivate the user</h3>
 
 	<mat-dialog-content>
 		<!-- USER FORM -->

@@ -71,7 +71,7 @@ export class UserModelComponent implements OnInit {
 	}
 
 	onDelete() {
-		this.modalRef.close(null);
+		this.modalRef.close(this.data);
 	}
 
 	requireOneTrueValidator(): ValidatorFn {

@@ -8,7 +8,11 @@
 		<!-- Profile Column -->
 		<ng-container matColumnDef="profile">
 			<th mat-header-cell *matHeaderCellDef>Avatar</th>
-			<td mat-cell *matCellDef="let user"><img [src]="user.avatar" /></td>
+			<td mat-cell *matCellDef="let user">
+				<div class="avatar-wrapper">
+					<img [src]="apiUrl + user.avatar" alt="Avatar" />
+				</div>
+			</td>
 		</ng-container>
 
 		<!-- Name Column -->
@@ -56,9 +60,13 @@
 						<mat-icon>edit</mat-icon>
 						<span>Edit User</span>
 					</button>
-					<button mat-menu-item (click)="deleteUser(user)">
+					<button *ngIf="user.active" mat-menu-item (click)="deleteUser(user)">
 						<mat-icon>delete_forever</mat-icon>
 						<span>Delete User</span>
+					</button>
+					<button *ngIf="!user.active" mat-menu-item (click)="restoreUser(user)">
+						<mat-icon>settings_backup_restore</mat-icon>
+						<span>Restore User</span>
 					</button>
 				</mat-menu>
 			</td>

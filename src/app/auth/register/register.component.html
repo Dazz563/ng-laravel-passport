@@ -21,6 +21,16 @@
 				<mat-icon color="primary" matSuffix (click)="hidePassword = !hidePassword">{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
 				<mat-error *ngIf="regForm.hasError">Password is too weak (1 upper, 1 lower, 1 special char)</mat-error>
 			</mat-form-field>
+			<mat-form-field>
+				<mat-label>User avatar</mat-label>
+				<input disabled="true" matInput placeholder="Placeholder" />
+				<mat-icon style="cursor: pointer" (click)="avatar.click()" matSuffix>add</mat-icon>
+			</mat-form-field>
+			<input style="visibility: hidden" #avatar (change)="addAvatar($event)" type="file" accept="image/jpeg, image/jpg" />
+			<div *ngIf="imageSelected" class="avatar-container">
+				<img [src]="viewImage" width="100%" alt="" />
+			</div>
+
 			<button color="primary" [disabled]="regForm.invalid" class="mt-1" mat-raised-button>Register</button>
 			<p routerLink="/" class="center-text mt-1 pointer">Back to login</p>
 		</form>

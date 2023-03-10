@@ -14,12 +14,10 @@ export class AdminService {
 	) {}
 
 	getAllUsers() {
-		// await this.loading.show();
 		return this.http.get(`${this.URL}/api/get_all_users`);
 	}
 
 	createUser(newUser: any) {
-		// await this.loading.show();
 		return this.http.post(`${this.URL}/api/create_user`, newUser).subscribe({
 			next: (res: any) => {
 				console.log(res);
@@ -31,14 +29,14 @@ export class AdminService {
 	}
 
 	updateUser(user: any) {
-		// await this.loading.show();
-		return this.http.post(`${this.URL}/api/edit_roles/${user.id}`, user).subscribe({
-			next: (res: any) => {
-				console.log(res);
-			},
-			error(error) {
-				console.log(error);
-			},
-		});
+		return this.http.post(`${this.URL}/api/edit_roles/${user.id}`, user);
+	}
+
+	deleteUser(id: number) {
+		return this.http.delete(`${this.URL}/api/delete_user/${id}`);
+	}
+
+	restoreUser(id: number) {
+		return this.http.put(`${this.URL}/api/restore_user/${id}`, null);
 	}
 }

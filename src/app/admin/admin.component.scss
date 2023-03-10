@@ -29,3 +29,16 @@
 .inactive {
 	color: red;
 }
+
+.avatar-wrapper {
+	width: 35px; /* adjust the size as needed */
+	height: 35px; /* adjust the size as needed */
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.avatar-wrapper img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}

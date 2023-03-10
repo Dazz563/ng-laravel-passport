@@ -140,7 +140,7 @@ export class AuthService {
 		this.http.post(`${this.URL}/api/forgot_password`, email).subscribe({
 			next: (res: any) => {
 				console.log(res);
-				if (res.data) {
+				if (res) {
 					this.snackbar.open(`Reset password sent to ${email['email']}`, null, {
 						duration: 4000,
 						horizontalPosition: 'center',

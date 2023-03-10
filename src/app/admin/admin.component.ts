@@ -5,6 +5,7 @@ import {AdminService} from '../services/admin.service';
 import {UserModel} from '../services/auth.service';
 import {MatDialog} from '@angular/material/dialog';
 import {openUserDeleteModal, openUserModal} from './user-model/user-model.component';
+import {environment} from 'src/environments/environment';
 
 @Component({
 	selector: 'app-admin',
@@ -12,6 +13,7 @@ import {openUserDeleteModal, openUserModal} from './user-model/user-model.compon
 	styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent implements OnInit {
+	apiUrl = environment.apiUrl;
 	@ViewChild(MatPaginator) paginator!: MatPaginator;
 	displayedColumns: string[] = [
 		'profile', //
@@ -69,8 +71,15 @@ export class AdminComponent implements OnInit {
 	editUser(user: any) {
 		openUserModal(this.modal, user, 'update').subscribe((value) => {
 			if (value) {
-				this.adminService.updateUser(value);
-				this.getUsers();
+				this.adminService.updateUser(value).subscribe({
+					next: (res: any) => {
+						console.log(res);
+						this.getUsers();
+					},
+					error(error) {
+						console.log(error);
+					},
+				});
 			}
 		});
 	}
@@ -78,8 +87,28 @@ export class AdminComponent implements OnInit {
 	deleteUser(user: any) {
 		openUserDeleteModal(this.modal, user, 'delete').subscribe((value) => {
 			if (value) {
-				console.log('company sending api: ', value);
+				this.adminService.deleteUser(user.id).subscribe({
+					next: (res: any) => {
+						console.log(res);
+						this.getUsers();
+					},
+					error(error) {
+						console.log(error);
+					},
+				});
 			}
+		});
+	}
+
+	restoreUser(user: any) {
+		this.adminService.restoreUser(user.id).subscribe({
+			next: (res: any) => {
+				console.log(res);
+				this.getUsers();
+			},
+			error(error) {
+				console.log(error);
+			},
 		});
 	}
 
