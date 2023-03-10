@@ -1,8 +1,14 @@
 <!-- CREATE & UPDATE MODAL -->
 <div *ngIf="!deleteModal" class="modal-container">
-	<h2 class="modal-heading" mat-dialog-title>{{ actionType === 'create' ? 'Create User' : 'Update User' }}</h2>
-	<h3 class="modal-sub-heading">{{ actionType === 'create' ? 'Please submit for creation' : 'Please update the users fields here' }}</h3>
-	<h3 *ngIf="actionType === 'update'" class="modal-sub-heading">Please note revoking all roles will deactivate the user</h3>
+	<div class="header">
+		<div>
+			<h2 class="modal-heading" mat-dialog-title>{{ actionType === 'create' ? 'Create User' : 'Update User' }}</h2>
+			<h3 class="modal-sub-heading">{{ actionType === 'create' ? 'Please submit for creation' : 'Please update the users fields here' }}</h3>
+		</div>
+		<div class="avatar">
+			<img [src]="viewImage || updateImage" width="100%" alt="" />
+		</div>
+	</div>
 
 	<mat-dialog-content>
 		<!-- USER FORM -->
@@ -23,6 +29,13 @@
 				<input type="text" matInput placeholder="email" formControlName="password" />
 				<mat-error *ngIf="userForm.get('password').hasError('required')">Passsword is required</mat-error>
 			</mat-form-field>
+			<mat-form-field>
+				<mat-label>Update avatar</mat-label>
+				<input disabled="true" matInput placeholder="Placeholder" />
+				<mat-icon style="cursor: pointer" (click)="avatar.click()" matSuffix>add</mat-icon>
+			</mat-form-field>
+			<input style="visibility: hidden" #avatar (change)="updateAvatar($event)" type="file" accept="image/jpeg, image/jpg" />
+			<h4 *ngIf="actionType === 'update'" class="modal-sub-heading modal-warning">Please note revoking all roles will deactivate the user</h4>
 			<div>
 				<mat-checkbox formControlName="admin" class="example-margin">Admin</mat-checkbox>
 			</div>

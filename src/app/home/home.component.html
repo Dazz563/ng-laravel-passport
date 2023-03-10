@@ -19,16 +19,22 @@
 				</div>
 				<div class="menu-layout">
 					<div>
+						<a mat-list-item routerLink="user">
+							<mat-icon mat-list-icon
+								>conveyor_belt
+								<!-- <img src="../../../assets/stocksheet-menu.svg" alt="Users" /> -->
+							</mat-icon>
+						</a>
 						<a mat-list-item routerLink="viewer">
 							<mat-icon mat-list-icon
-								>admin_panel_settings
+								>list_alt
 								<!-- <img src="../../../assets/users_icon.svg" alt="Users" /> -->
 							</mat-icon>
 						</a>
-						<a mat-list-item routerLink="user">
+						<a mat-list-item routerLink="viewer">
 							<mat-icon mat-list-icon
-								>admin_panel_settings
-								<!-- <img src="../../../assets/stocksheet-menu.svg" alt="Users" /> -->
+								>shopping_cart
+								<!-- <img src="../../../assets/users_icon.svg" alt="Users" /> -->
 							</mat-icon>
 						</a>
 						<a mat-list-item routerLink="admin">
@@ -41,7 +47,7 @@
 					<div>
 						<a mat-list-item (click)="logout()">
 							<mat-icon mat-list-icon
-								>admin_panel_settings
+								>exit_to_app
 								<!-- <img src="../../../assets/insurance-policies-desktop.svg" alt="Users" /> -->
 							</mat-icon>
 						</a>

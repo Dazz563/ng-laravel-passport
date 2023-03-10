@@ -12,19 +12,26 @@
 
 	<div class="menu-layout">
 		<div>
-			<a mat-list-item routerLink="viewer">
-				<mat-icon mat-list-icon
-					>admin_panel_settings
-					<!-- <img src="../../../assets/valuation_icon.svg" alt="Users" /> -->
-				</mat-icon>
-				Viewer
-			</a>
 			<a mat-list-item routerLink="user">
 				<mat-icon mat-list-icon
-					>admin_panel_settings
+					>conveyor_belt
 					<!-- <img src="../../../assets/shop_icon.svg" alt="Users" /> -->
 				</mat-icon>
-				User
+				My Products
+			</a>
+			<a mat-list-item routerLink="viewer">
+				<mat-icon mat-list-icon
+					>list_alt
+					<!-- <img src="../../../assets/valuation_icon.svg" alt="Users" /> -->
+				</mat-icon>
+				My Orders
+			</a>
+			<a mat-list-item routerLink="viewer">
+				<mat-icon mat-list-icon
+					>shopping_cart
+					<!-- <img src="../../../assets/valuation_icon.svg" alt="Users" /> -->
+				</mat-icon>
+				My Cart
 			</a>
 			<a mat-list-item routerLink="admin">
 				<mat-icon mat-list-icon
@@ -37,7 +44,7 @@
 		<div>
 			<a mat-list-item (click)="logout()">
 				<mat-icon mat-list-icon
-					>admin_panel_settings
+					>exit_to_app
 					<!-- <img src="../../../assets/users_icon.svg" alt="Users" /> -->
 				</mat-icon>
 				Logout
