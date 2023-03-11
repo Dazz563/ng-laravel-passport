@@ -3,7 +3,8 @@
 	<div class="header">
 		<div>
 			<h2 class="modal-heading" mat-dialog-title>{{ actionType === 'create' ? 'Create User' : 'Update User' }}</h2>
-			<h3 class="modal-sub-heading">{{ actionType === 'create' ? 'Please submit for creation' : 'Please update the users fields here' }}</h3>
+			<h3 class="modal-sub-heading">{{ actionType === 'create' ? 'Please submit for creation' : 'Update the users fields here' }}</h3>
+			<h4 *ngIf="actionType === 'update'" class="modal-warning">Please note revoking all roles will deactivate the user</h4>
 		</div>
 		<div class="avatar">
 			<img [src]="viewImage || updateImage" width="100%" alt="" />
@@ -35,15 +36,14 @@
 				<mat-icon style="cursor: pointer" (click)="avatar.click()" matSuffix>add</mat-icon>
 			</mat-form-field>
 			<input style="visibility: hidden" #avatar (change)="updateAvatar($event)" type="file" accept="image/jpeg, image/jpg" />
-			<h4 *ngIf="actionType === 'update'" class="modal-sub-heading modal-warning">Please note revoking all roles will deactivate the user</h4>
 			<div>
-				<mat-checkbox formControlName="admin" class="example-margin">Admin</mat-checkbox>
+				<mat-checkbox color="primary" formControlName="admin" class="example-margin">Admin</mat-checkbox>
 			</div>
 			<div>
-				<mat-checkbox formControlName="vendor" class="example-margin">Vendor</mat-checkbox>
+				<mat-checkbox color="primary" formControlName="vendor" class="example-margin">Vendor</mat-checkbox>
 			</div>
 			<div>
-				<mat-checkbox formControlName="user" class="example-margin">User</mat-checkbox>
+				<mat-checkbox color="primary" formControlName="user" class="example-margin">User</mat-checkbox>
 			</div>
 		</form>
 	</mat-dialog-content>

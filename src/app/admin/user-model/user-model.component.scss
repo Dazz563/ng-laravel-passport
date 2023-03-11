@@ -14,12 +14,14 @@ form {
 	margin: 0;
 }
 .modal-sub-heading {
-	margin-top: 1rem;
-	margin-bottom: 1rem;
+	margin-top: 0.5rem;
+	// margin-bottom: 1rem;
 }
 
 .modal-warning {
 	color: red;
+	font-size: 12px;
+	margin-top: -9px;
 }
 
 .avatar {
