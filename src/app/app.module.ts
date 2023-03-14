@@ -14,9 +14,11 @@ import {SharedModule} from './shared/shared.module';
 import {AuthInterceptorService} from './services/auth-interceptor.service';
 import {SidenavListComponent} from './home/sidenav-list/sidenav-list.component';
 import {ViewerComponent} from './viewer/viewer.component';
-import {UserComponent} from './user/user.component';
 import {AdminComponent} from './admin/admin.component';
 import {UserModelComponent} from './admin/user-model/user-model.component';
+import { MyProductsComponent } from './my-products/my-products.component';
+import { ProductModelComponent } from './my-products/product-model/product-model.component';
+import { ViewImagesModelComponent } from './my-products/view-images-model/view-images-model.component';
 
 @NgModule({
 	declarations: [
@@ -28,9 +30,11 @@ import {UserModelComponent} from './admin/user-model/user-model.component';
 		HomeComponent,
 		SidenavListComponent,
 		ViewerComponent,
-		UserComponent,
 		AdminComponent,
 		UserModelComponent,
+  MyProductsComponent,
+  ProductModelComponent,
+  ViewImagesModelComponent,
 	],
 	imports: [
 		BrowserModule, //

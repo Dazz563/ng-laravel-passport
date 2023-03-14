@@ -6,7 +6,7 @@ import {LoginComponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
 import {ResetPasswordComponent} from './auth/reset-password/reset-password.component';
 import {HomeComponent} from './home/home.component';
-import {UserComponent} from './user/user.component';
+import {MyProductsComponent} from './my-products/my-products.component';
 import {ViewerComponent} from './viewer/viewer.component';
 
 const routes: Routes = [
@@ -41,8 +41,8 @@ const routes: Routes = [
 				component: ViewerComponent,
 			},
 			{
-				path: 'user',
-				component: UserComponent,
+				path: 'my-products',
+				component: MyProductsComponent,
 			},
 			{
 				path: 'admin',
