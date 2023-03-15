@@ -10,6 +10,7 @@ import {ProductModel} from 'src/app/services/product.service';
 })
 export class ProductModelComponent implements OnInit {
 	deleteModal = false;
+	restoreModal = false;
 	actionType: string;
 
 	productForm = new FormGroup({
@@ -41,6 +42,9 @@ export class ProductModelComponent implements OnInit {
 			case 'delete':
 				this.deleteModal = this.data.action;
 				break;
+			case 'restore':
+				this.restoreModal = this.data.action;
+				break;
 
 			default:
 				// handle invalid action
@@ -59,6 +63,10 @@ export class ProductModelComponent implements OnInit {
 	}
 
 	onDelete() {
+		this.modalRef.close(this.data);
+	}
+
+	onRestore() {
 		this.modalRef.close(this.data);
 	}
 }

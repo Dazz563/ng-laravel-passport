@@ -1,1 +1,14 @@
-<p>view-images-model works!</p>
+<mat-form-field>
+	<mat-label>Add product images</mat-label>
+	<input disabled="true" matInput placeholder="Placeholder" />
+	<mat-icon style="cursor: pointer" (click)="product.click()" matSuffix>add</mat-icon>
+</mat-form-field>
+<input style="visibility: hidden" #product (change)="addProductImages($event)" type="file" accept="image/jpeg, image/jpg" multiple />
+
+<ng-container *ngIf="imagesSelected">
+	<div *ngFor="let image of images" class="avatar-container">
+		<img [src]="image" width="100%" alt="" />
+	</div>
+</ng-container>
+
+<button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>

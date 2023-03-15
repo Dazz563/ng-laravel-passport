@@ -1,5 +1,5 @@
 <!-- CREATE & UPDATE MODAL -->
-<div *ngIf="!deleteModal" class="modal-container">
+<div *ngIf="!deleteModal && !restoreModal" class="modal-container">
 	<div class="header">
 		<div>
 			<h2 class="modal-heading" mat-dialog-title>{{ actionType === 'create' ? 'Create Product' : 'Update Product' }}</h2>
@@ -46,5 +46,17 @@
 	<mat-dialog-actions>
 		<button mat-raised-button color="primary" (click)="close()">Close</button>
 		<button mat-raised-button color="warn" class="modal-submit" (click)="onDelete()">Delete</button>
+	</mat-dialog-actions>
+</div>
+
+<!-- RESTORE MODAL -->
+<div *ngIf="restoreModal" class="modal-container">
+	<h2 class="modal-heading" mat-dialog-title>Restore Entry</h2>
+	<h3 class="modal-sub-heading">Are you sure you want to retore this entry?</h3>
+
+	<mat-dialog-content> </mat-dialog-content>
+	<mat-dialog-actions>
+		<button mat-raised-button color="primary" (click)="close()">Close</button>
+		<button mat-raised-button color="warn" class="modal-submit" (click)="onRestore()">Restore</button>
 	</mat-dialog-actions>
 </div>

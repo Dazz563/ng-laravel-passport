@@ -105,10 +105,41 @@ export class ProductService {
 					horizontalPosition: 'center',
 					verticalPosition: 'top',
 				});
-				return product;
+				let deletedProduct = res['data'];
+
+				return {
+					...deletedProduct,
+					active: product.deleted_at,
+				};
 			}),
 			tap((deletedProduct: ProductModel) => {
-				const products = this.productsSubject.value.filter((p) => p.id !== deletedProduct.id);
+				const products = this.productsSubject.value.map((p) => (p.id === deletedProduct.id ? deletedProduct : p));
+				this.productsSubject.next(products);
+			}),
+			catchError((error) => {
+				this.snackbar.open(error.message, 'Dismiss', {});
+				return of(null);
+			})
+		);
+	}
+
+	restoreProduct(product: ProductModel): Observable<ProductModel> {
+		return this.http.put<[{message: string; data: ProductModel}]>(`${this.URL}/api/restore_product/${product.id}`, product).pipe(
+			map((res) => {
+				this.snackbar.open(res['message'], null, {
+					duration: 4000,
+					horizontalPosition: 'center',
+					verticalPosition: 'top',
+				});
+				let restoredProduct = res['data'];
+
+				return {
+					...restoredProduct,
+					active: !product.deleted_at,
+				};
+			}),
+			tap((deletedProduct: ProductModel) => {
+				const products = this.productsSubject.value.map((p) => (p.id === deletedProduct.id ? deletedProduct : p));
 				this.productsSubject.next(products);
 			}),
 			catchError((error) => {

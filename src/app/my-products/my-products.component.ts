@@ -55,8 +55,12 @@ export class MyProductsComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	restoreProduct(_t60: any) {
-		throw new Error('Method not implemented.');
+	restoreProduct(product: any) {
+		openProductDeleteModal(this.modal, product, 'restore').subscribe((value) => {
+			if (value) {
+				this.productService.restoreProduct(value).subscribe();
+			}
+		});
 	}
 
 	deleteProduct(product: any) {
