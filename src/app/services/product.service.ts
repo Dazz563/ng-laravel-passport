@@ -1,7 +1,7 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {BehaviorSubject, map, Observable, tap} from 'rxjs';
+import {BehaviorSubject, catchError, map, Observable, of, tap} from 'rxjs';
 import {environment} from 'src/environments/environment';
 
 export interface ProductModel {
@@ -29,9 +29,6 @@ export class ProductService {
 		private snackbar: MatSnackBar // private loader: AppLoaderService
 	) {}
 
-	// getAllProducts() {
-	// 	return this.http.get(`${this.URL}/api/products`);
-	// }
 	getAllProducts() {
 		this.http.get<{data: ProductModel[]}>(`${this.URL}/api/products`).subscribe((res) => {
 			const products = res.data.map((product) => {
@@ -44,25 +41,80 @@ export class ProductService {
 		});
 	}
 
-	// createProduct(product: ProductModel) {
-	// 	return this.http.post(`${this.URL}/api/products`, product);
-	// }
-
 	createProduct(product: ProductModel): Observable<ProductModel> {
 		return this.http.post<[{message: string; data: ProductModel}]>(`${this.URL}/api/products`, product).pipe(
-			map((res) => res['data']),
-			tap((createdProduct) => {
-				const products = this.productsSubject.value.concat(createdProduct);
+			map((res) => {
+				this.snackbar.open(res['message'], null, {
+					duration: 4000,
+					horizontalPosition: 'center',
+					verticalPosition: 'top',
+				});
+				let newProduct = res['data'];
+				return {
+					...newProduct,
+					active: !product.deleted_at,
+				};
+			}),
+			tap((createdProduct: ProductModel) => {
+				const products = [createdProduct, ...this.productsSubject.value];
 				this.productsSubject.next(products);
+			}),
+			catchError((error) => {
+				console.log(error);
+
+				this.snackbar.open(error.message, null, {
+					duration: 4000,
+					horizontalPosition: 'center',
+					verticalPosition: 'top',
+				});
+				return of(null);
 			})
 		);
 	}
 
-	updateProduct(product: ProductModel) {
-		return this.http.patch(`${this.URL}/api/products/${product.id}`, product);
+	updateProduct(product: ProductModel): Observable<ProductModel> {
+		return this.http.patch<[{message: string; data: ProductModel}]>(`${this.URL}/api/products/${product.id}`, product).pipe(
+			map((res) => {
+				this.snackbar.open(res['message'], null, {
+					duration: 4000,
+					horizontalPosition: 'center',
+					verticalPosition: 'top',
+				});
+				let updatedProduct = res['data'];
+				return {
+					...updatedProduct,
+					active: !product.deleted_at,
+				};
+			}),
+			tap((updatedProduct: ProductModel) => {
+				const products = this.productsSubject.value.map((p) => (p.id === updatedProduct.id ? updatedProduct : p));
+				this.productsSubject.next(products);
+			}),
+			catchError((error) => {
+				this.snackbar.open(error.message, 'Dismiss', {duration: 3000});
+				return of(null);
+			})
+		);
 	}
 
-	deleteProduct(product: ProductModel) {
-		return this.http.delete(`${this.URL}/api/products/${product.id}`);
+	deleteProduct(product: ProductModel): Observable<ProductModel> {
+		return this.http.delete<[{message: string; data: ProductModel}]>(`${this.URL}/api/products/${product.id}`).pipe(
+			map((res) => {
+				this.snackbar.open(res['message'], null, {
+					duration: 4000,
+					horizontalPosition: 'center',
+					verticalPosition: 'top',
+				});
+				return product;
+			}),
+			tap((deletedProduct: ProductModel) => {
+				const products = this.productsSubject.value.filter((p) => p.id !== deletedProduct.id);
+				this.productsSubject.next(products);
+			}),
+			catchError((error) => {
+				this.snackbar.open(error.message, 'Dismiss', {});
+				return of(null);
+			})
+		);
 	}
 }

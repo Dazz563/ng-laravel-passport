@@ -16,7 +16,7 @@ export class ProductModelComponent implements OnInit {
 		id: new FormControl(null),
 		user_id: new FormControl(null),
 		title: new FormControl(null, [Validators.required]),
-		description: new FormControl(null, [Validators.required]),
+		description: new FormControl(null),
 		price: new FormControl(null, [Validators.required]),
 	});
 	constructor(
