@@ -60,10 +60,8 @@ export class AdminComponent implements OnInit {
 	createUser() {
 		openUserModal(this.modal, null, 'create').subscribe((value) => {
 			if (value) {
-				if (value) {
-					this.adminService.createUser(value);
-					this.getUsers();
-				}
+				this.adminService.createUser(value);
+				this.getUsers();
 			}
 		});
 	}

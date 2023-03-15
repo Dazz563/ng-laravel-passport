@@ -1,9 +1,13 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {switchMap} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {UserModel} from '../services/auth.service';
 import {ProductModel, ProductService} from '../services/product.service';
+import {openProductDeleteModal, openProductModal} from './product-model/product-model.component';
+import {openProdImagesModal} from './view-images-model/view-images-model.component';
 
 @Component({
 	selector: 'app-my-products',
@@ -24,47 +28,105 @@ export class MyProductsComponent implements OnInit {
 	];
 	dataSource = new MatTableDataSource<ProductModel>();
 	constructor(
-		private productService: ProductService //
+		private productService: ProductService, //
+		private modal: MatDialog
 	) {}
 
 	ngOnInit(): void {
-		this.getproducts();
+		// this.getproducts();
+		this.productService.products$.subscribe((products) => {
+			console.log(products);
+			this.dataSource.data = products;
+		});
+		this.productService.getAllProducts();
 	}
 
 	getproducts() {
-		this.productService.getAllProducts().subscribe({
-			next: (res: any) => {
-				console.log(res);
+		// 	this.productService.getAllProducts().subscribe({
+		// 		next: (res: any) => {
+		// 			console.log(res);
+		// 			res.data = res.data.map((user) => {
+		// 				if (user.deleted_at) {
+		// 					return {...user, active: false};
+		// 				} else {
+		// 					return {...user, active: true};
+		// 				}
+		// 			});
+		// 			this.dataSource.data = res.data;
+		// 			this.dataSource.paginator = this.paginator;
+		// 		},
+		// 		error: (error) => {
+		// 			console.log(error);
+		// 		},
+		// 	});
+	}
 
-				res.data = res.data.map((user) => {
-					if (user.deleted_at) {
-						return {...user, active: false};
-					} else {
-						return {...user, active: true};
-					}
+	createProduct(): void {
+		openProductModal(this.modal, null, 'create').subscribe((product) => {
+			if (product) {
+				this.productService.createProduct(product).subscribe(() => {
+					// do nothing, subscription to products will handle update of table
 				});
-				this.dataSource.data = res.data;
-				this.dataSource.paginator = this.paginator;
-			},
-			error: (error) => {
-				console.log(error);
-			},
+			}
 		});
 	}
 
-	createProduct() {
-		throw new Error('Method not implemented.');
+	// createProduct() {
+	// 	openProductModal(this.modal, null, 'create').subscribe((product) => {
+	// 		if (product) {
+	// 			this.productService.createProduct(product).subscribe({
+	// 				next: (res: any) => {
+	// 					console.log(res);
+	// 					this.getproducts();
+	// 				},
+	// 				error: (error) => {
+	// 					console.log(error);
+	// 				},
+	// 			});
+	// 		}
+	// 	});
+	// }
+
+	editProduct(product: any) {
+		// 	openProductModal(this.modal, product, 'update').subscribe((product) => {
+		// 		if (product) {
+		// 			this.productService.updateProduct(product).subscribe({
+		// 				next: (res: any) => {
+		// 					console.log(res);
+		// 					this.getproducts();
+		// 				},
+		// 				error: (error) => {
+		// 					console.log(error);
+		// 				},
+		// 			});
+		// 		}
+		// 	});
 	}
+
 	restoreProduct(_t60: any) {
 		throw new Error('Method not implemented.');
 	}
-	deleteProduct(_t60: any) {
-		throw new Error('Method not implemented.');
+
+	deleteProduct(product: any) {
+		// 	openProductDeleteModal(this.modal, product, 'delete').subscribe((value) => {
+		// 		if (value) {
+		// 			this.productService.deleteProduct(value).subscribe({
+		// 				next: (res: any) => {
+		// 					console.log(res);
+		// 					this.getproducts();
+		// 				},
+		// 				error: (error) => {
+		// 					console.log(error);
+		// 				},
+		// 			});
+		// 		}
+		// 	});
 	}
-	editProduct(_t60: any) {
-		throw new Error('Method not implemented.');
-	}
-	viewImages(_t71: any) {
-		throw new Error('Method not implemented.');
+
+	viewImages(product: any) {
+		openProdImagesModal(this.modal, null, 'update').subscribe((value) => {
+			if (value) {
+			}
+		});
 	}
 }
