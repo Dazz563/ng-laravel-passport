@@ -148,4 +148,8 @@ export class ProductService {
 			})
 		);
 	}
+
+	deleteProductImage(productImageId: number) {
+		return this.http.delete(`${this.URL}/api/delete_product_image/${productImageId}`);
+	}
 }

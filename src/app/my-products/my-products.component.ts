@@ -72,7 +72,7 @@ export class MyProductsComponent implements OnInit, OnDestroy {
 	}
 
 	viewImages(product: any) {
-		openProdImagesModal(this.modal, null, 'update').subscribe((value) => {
+		openProdImagesModal(this.modal, product, 'update').subscribe((value) => {
 			if (value) {
 			}
 		});

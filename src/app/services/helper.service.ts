@@ -20,20 +20,12 @@ export class HelperService {
 
 	uploadImageWebCompress(args): Observable<any> {
 		console.log('DOING COMPRESSED UPLOAD');
-		console.log(args);
 		// TODO: Show loading spinner or progress bar
 
 		// Convert the imageFile to an Observable using the of() operator
 		return of(args[1]).pipe(
 			// Switch to the imageCompression() Observable to compress the image
 			switchMap((file) => {
-				console.log('file in the helper', file);
-
-				// Check if the file is a GIF (not supported by the server)
-				if (file.type.includes('gif')) {
-					// Throw an error if the file is a GIF
-					throw new Error('The given file was a gif, please upload a JPG or PNG.');
-				}
 				// Compress the image using the imageCompression library
 				return imageCompression(file, this.compressionOptions);
 			}),
@@ -41,13 +33,16 @@ export class HelperService {
 			map((compressedFile) => {
 				// Create a new FormData object
 				let formData = new FormData();
+
 				// Set the file extension based on the image type
 				let ext = '.jpeg';
 				if (compressedFile.type.includes('png')) {
 					ext = '.png';
 				}
+
 				// Append the compressed image to the FormData object
-				formData.append('file', compressedFile, 'imagename' + ext);
+				formData.append('file', compressedFile, compressedFile.name + ext);
+
 				// Return the FormData object
 				return formData;
 			}),
@@ -72,15 +67,8 @@ export class HelperService {
 
 	uploadMultipleImageWebCompress(args): Observable<any> {
 		console.log('DOING COMPRESSED UPLOAD');
-		console.log(args);
-
 		// Create an array of observables for each file using the from() operator
 		const fileObservables = args[1].map((file) => {
-			// Check if the file is a GIF (not supported by the server)
-			if (file.type.includes('gif')) {
-				// Throw an error if the file is a GIF
-				throw new Error('The given file was a gif, please upload a JPG or PNG.');
-			}
 			// Compress the image using the imageCompression library and return the compressed file
 			return from(imageCompression(file, this.compressionOptions));
 		});
@@ -91,6 +79,7 @@ export class HelperService {
 			map((compressedFiles: any) => {
 				// Create a new FormData object
 				let formData = new FormData();
+
 				// Loop through the compressed files and append them to the FormData object
 				compressedFiles.forEach((compressedFile) => {
 					// Set the file extension based on the image type
@@ -98,13 +87,12 @@ export class HelperService {
 					if (compressedFile.type.includes('png')) {
 						ext = '.png';
 					}
-					// Append the compressed image to the FormData object with a unique name
-					formData.append('files', compressedFile, 'imagename' + ext);
-				});
-				// Return the FormData object
-				console.log('here is your compressedFile: ', compressedFiles);
-				console.log('here is your form data: ', formData);
 
+					// Append the compressed image to the FormData object with a unique name
+					formData.append('files[]', compressedFile, compressedFile.name + ext);
+				});
+
+				// Return the FormData object
 				return formData;
 			}),
 			// Send the FormData object to the server using the HttpClient
@@ -124,5 +112,18 @@ export class HelperService {
 				// TODO: Hide loading spinner or progress bar
 			})
 		);
+	}
+
+	removeUrlPath(url) {
+		// Split the URL into sections using the forward slash as a separator
+		const sections = url.split('/');
+
+		// Get the last section of the URL
+		const lastSection = sections[sections.length - 1];
+
+		// Combine the last section back into a new URL
+		const newUrl = lastSection;
+
+		return newUrl;
 	}
 }

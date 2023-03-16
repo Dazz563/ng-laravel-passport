@@ -5,6 +5,14 @@
 </mat-form-field>
 <input style="visibility: hidden" #product (change)="addProductImages($event)" type="file" accept="image/jpeg, image/jpg" multiple />
 
+<!-- EXISTING IMAGES -->
+<div class="product-image-container">
+	<div *ngFor="let i of existingImages" class="product-image">
+		<mat-icon class="delete-icon" (click)="deleteImg(i)">delete</mat-icon>
+		<img [src]="i.image" width="100%" alt="" />
+	</div>
+</div>
+
 <ng-container *ngIf="imagesSelected">
 	<div *ngFor="let image of images" class="avatar-container">
 		<img [src]="image" width="100%" alt="" />
