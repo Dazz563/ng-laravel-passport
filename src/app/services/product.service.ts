@@ -1,8 +1,9 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {BehaviorSubject, catchError, map, Observable, of, tap} from 'rxjs';
+import {BehaviorSubject, catchError, concatMap, map, Observable, of, switchMap, tap} from 'rxjs';
 import {environment} from 'src/environments/environment';
+import {HelperService} from './helper.service';
 
 export interface ProductModel {
 	id: number;
@@ -13,6 +14,14 @@ export interface ProductModel {
 	created_at: Date;
 	updated_at: Date;
 	deleted_at?: Date;
+	product_images?: ImageModel[];
+}
+export interface ImageModel {
+	id: number;
+	created_at: Date;
+	updated_at: Date;
+	image: string;
+	product_id: number;
 }
 
 @Injectable({
@@ -26,7 +35,8 @@ export class ProductService {
 
 	constructor(
 		private http: HttpClient, //
-		private snackbar: MatSnackBar // private loader: AppLoaderService
+		private snackbar: MatSnackBar,
+		private helper: HelperService
 	) {}
 
 	getAllProducts() {
@@ -149,7 +159,54 @@ export class ProductService {
 		);
 	}
 
+	uploadProductImages(prodId: number, imageFiles): Observable<ImageModel[]> {
+		// Submit image to api and use response to ref image
+		return this.helper.uploadMultipleImageWebCompress([`/api/upload_product_images/${prodId}`, imageFiles]).pipe(
+			map((res) => {
+				this.snackbar.open(res['message'], null, {
+					duration: 4000,
+					horizontalPosition: 'center',
+					verticalPosition: 'top',
+				});
+				return res['data'];
+			}),
+			tap((imageRes: ImageModel[]) => {
+				const products = this.productsSubject.value.map((p: ProductModel) => {
+					if (p.id === prodId) {
+						return {...p, product_images: imageRes}; // update the product's imageRes property with the returned imageRes
+					} else {
+						return p;
+					}
+				});
+				this.productsSubject.next(products);
+			}),
+			catchError((error) => {
+				this.snackbar.open(error.message, 'Dismiss', {duration: 3000});
+				return of(null);
+			})
+		);
+	}
+
 	deleteProductImage(productImageId: number) {
-		return this.http.delete(`${this.URL}/api/delete_product_image/${productImageId}`);
+		return this.http.delete(`${this.URL}/api/delete_product_image/${productImageId}`).pipe(
+			concatMap(() => {
+				// Update the productsSubject to remove the deleted image from the product
+				const products = this.productsSubject.value.map((p: ProductModel) => {
+					const updatedImages = p.product_images.filter((img) => img.id !== productImageId);
+					return {...p, product_images: updatedImages};
+				});
+				this.productsSubject.next(products);
+				this.snackbar.open('Image successfully deleted', null, {
+					duration: 4000,
+					horizontalPosition: 'center',
+					verticalPosition: 'top',
+				});
+				return of(true);
+			}),
+			catchError((error) => {
+				this.snackbar.open(error.message, 'Dismiss', {duration: 3000});
+				return of(null);
+			})
+		);
 	}
 }

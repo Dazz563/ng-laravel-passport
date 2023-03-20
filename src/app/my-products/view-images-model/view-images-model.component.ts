@@ -18,7 +18,6 @@ export class ViewImagesModelComponent implements OnInit {
 	files: FileList;
 
 	constructor(
-		private helper: HelperService, //
 		@Inject(MAT_DIALOG_DATA) public data, //
 		private modalRef: MatDialogRef<ViewImagesModelComponent>,
 		private productService: ProductService
@@ -34,12 +33,25 @@ export class ViewImagesModelComponent implements OnInit {
 		});
 	}
 
+	// deleteTemImg(imageData: any) {
+	// 	// create a new array from the FileList using the spread operator
+	// 	const filesArray = Array.from(this.files);
+
+	// 	// filter out the image to be removed
+	// 	const updatedFiles = filesArray.filter((file) => file.name !== imageData.name);
+
+	// 	// create a new DataTransfer object and add the updated files
+	// 	const dataTransfer = new DataTransfer();
+	// 	updatedFiles.forEach((file) => dataTransfer.items.add(file));
+
+	// 	// update the files selection
+	// 	this.files = dataTransfer.files;
+	// }
+
 	deleteImg(imageData: any) {
 		// update the DOM
 		this.existingImages = this.existingImages.filter((i) => i.id != imageData.id);
 		// send delete to the server
-		// let imageToDelete = this.helper.removeUrlPath(imageData.image);
-		// console.log(imageToDelete);
 		this.productService.deleteProductImage(imageData.id).subscribe({
 			next: (res) => {
 				console.log(res);
@@ -47,20 +59,13 @@ export class ViewImagesModelComponent implements OnInit {
 		});
 	}
 
+	onClose() {
+		this.modalRef.close(null);
+	}
+
 	onSubmit() {
 		console.log(this.files);
-
-		// Submit image to api and use response to ref image
-		this.helper.uploadMultipleImageWebCompress([`/api/upload_product_images/${this.data.id}`, Array.from(this.files)]).subscribe({
-			next: (res: any) => {
-				if (res.data) {
-					console.log(res);
-				}
-			},
-			error: (error) => {
-				console.log(error);
-			},
-		});
+		this.modalRef.close(Array.from(this.files));
 	}
 
 	addProductImages(event: Event) {

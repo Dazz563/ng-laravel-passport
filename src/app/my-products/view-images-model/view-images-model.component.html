@@ -1,22 +1,32 @@
-<mat-form-field>
-	<mat-label>Add product images</mat-label>
-	<input disabled="true" matInput placeholder="Placeholder" />
-	<mat-icon style="cursor: pointer" (click)="product.click()" matSuffix>add</mat-icon>
-</mat-form-field>
-<input style="visibility: hidden" #product (change)="addProductImages($event)" type="file" accept="image/jpeg, image/jpg" multiple />
+<div class="image-model-container">
+	<!-- EXISTING IMAGES -->
+	<h1 class="heading">Product images</h1>
+	<div class="product-image-container">
+		<div *ngFor="let i of existingImages" class="product-image">
+			<mat-icon class="delete-icon" (click)="deleteImg(i)">delete</mat-icon>
+			<img [src]="i.image" width="100%" alt="" />
+		</div>
+	</div>
 
-<!-- EXISTING IMAGES -->
-<div class="product-image-container">
-	<div *ngFor="let i of existingImages" class="product-image">
-		<mat-icon class="delete-icon" (click)="deleteImg(i)">delete</mat-icon>
-		<img [src]="i.image" width="100%" alt="" />
+	<div>
+		<mat-form-field>
+			<mat-label>Add new images</mat-label>
+			<input disabled="true" matInput placeholder="Placeholder" />
+			<mat-icon style="cursor: pointer" (click)="product.click()" matSuffix>add</mat-icon>
+		</mat-form-field>
+		<input style="visibility: hidden" #product (change)="addProductImages($event)" type="file" accept="image/jpeg, image/jpg" multiple />
+	</div>
+
+	<!-- TEMPORARY IMAGES FOR UPLOAD -->
+	<div *ngIf="imagesSelected" class="product-image-container">
+		<div *ngFor="let i of images" class="product-image">
+			<!-- <mat-icon class="delete-icon" (click)="deleteTemImg(i)">delete</mat-icon> -->
+			<img [src]="i" width="100%" alt="" />
+		</div>
+	</div>
+
+	<div class="btn-container">
+		<button mat-raised-button color="warn" (click)="onClose()">Cancel</button>
+		<button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
 	</div>
 </div>
-
-<ng-container *ngIf="imagesSelected">
-	<div *ngFor="let image of images" class="avatar-container">
-		<img [src]="image" width="100%" alt="" />
-	</div>
-</ng-container>
-
-<button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>

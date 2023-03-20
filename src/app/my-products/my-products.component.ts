@@ -4,6 +4,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {Subscription} from 'rxjs';
 import {environment} from 'src/environments/environment';
+import {HelperService} from '../services/helper.service';
 import {ProductModel, ProductService} from '../services/product.service';
 import {openProductDeleteModal, openProductModal} from './product-model/product-model.component';
 import {openProdImagesModal} from './view-images-model/view-images-model.component';
@@ -28,7 +29,8 @@ export class MyProductsComponent implements OnInit, OnDestroy {
 	dataSource = new MatTableDataSource<ProductModel>();
 	constructor(
 		private productService: ProductService, //
-		private modal: MatDialog
+		private modal: MatDialog,
+		private helper: HelperService
 	) {}
 
 	ngOnInit(): void {
@@ -72,8 +74,9 @@ export class MyProductsComponent implements OnInit, OnDestroy {
 	}
 
 	viewImages(product: any) {
-		openProdImagesModal(this.modal, product, 'update').subscribe((value) => {
-			if (value) {
+		openProdImagesModal(this.modal, product, 'update').subscribe((imageFiles) => {
+			if (imageFiles) {
+				this.productService.uploadProductImages(product.id, imageFiles).subscribe();
 			}
 		});
 	}
